@@ -1,0 +1,95 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@700&display=swap');
+
+
+:root {
+  background-color: #000;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+}
+
+.card-wrapper {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.cards-container {
+  transform: translateZ(0);
+}
+
+video {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+
+/* Enable 3D rendering */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.tunnel-layer {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::-webkit-scrollbar-thumb {
+  background: #222;
+}
+
+
+:root {
+  --f-5-min: 30;
+  --f-5-max: 120;
+  --fluid-bp: calc((100vw - 320px) / (1920 - 320));
+  --step-5: calc(((var(--f-5-min) / 16) * 1rem) + (var(--f-5-max) - var(--f-5-min)) * var(--fluid-bp));
+}
+
+#smooth-wrapper {
+  font-family: 'Unbounded', sans-serif;
+}
+
+.hero-heading {
+  position: relative;
+  font-size: var(--step-5);
+  text-transform: uppercase;
+  text-align: center;
+  z-index: 2;
+  mix-blend-mode: difference;
+  perspective: 1000px;
+  transform: rotate(0.1deg);
+}
+
+.draw-svg-container {
+  position: absolute;
+  width: 112%;
+  top: 50%;
+  transform: translateY(-50%) rotate(2deg);
+  left: -6%;
+  z-index: -1;
+}
+
+.parallax-images {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  align-items: stretch;
+  justify-items: center;
+  margin-top: 2rem;
+  z-index: -1;
+}
+
+.parallax-images img {
+  max-width: 100%;
+  height: 60vh;
+  object-fit: cover;
+}
