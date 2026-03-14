@@ -319,7 +319,9 @@ useGSAP(() => {
                   <div className="absolute inset-0 z-0 card-parallax">
                     {lab.video_id ? (
                       <video
-                        ref={(el) => (videoRefs.current[i] = el)}
+                        ref={(el) => {
+                          videoRefs.current[i] = el
+                        }}
                         onLoadedData={handleMediaLoad}
                         src={`${CLOUDINARY_BASEVID}/${lab.video_id}.mp4`}
                         autoPlay
