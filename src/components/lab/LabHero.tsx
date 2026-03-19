@@ -20,6 +20,16 @@ export default function LabHero({ name, focus, description, video, color }: Prop
   const overlayRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const lineRef = useRef<HTMLDivElement>(null)
+  const headingRef = useRef<HTMLHeadingElement>(null)
+
+  // Calculate responsive font size based on name length
+  const getHeadingSize = (text: string) => {
+    const length = text.length
+    if (length <= 15) return "text-[6vw]" // Short names: largest
+    if (length <= 25) return "text-[5vw]" // Medium names
+    if (length <= 35) return "text-[4.2vw]" // Longer names
+    return "text-[3.5vw]" // Very long names
+  }
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 0.05 })
@@ -73,6 +83,8 @@ export default function LabHero({ name, focus, description, video, color }: Prop
         muted
         loop
         playsInline
+        preload="auto"
+        style={{ willChange: 'transform' }}
         className="absolute inset-0 w-full h-full object-cover"
         src={`${CLOUDINARY_BASE}${video}.mp4`}
       />
@@ -94,14 +106,17 @@ export default function LabHero({ name, focus, description, video, color }: Prop
       />
 
       {/* Content */}
-      <div ref={contentRef} className="relative z-30 max-w-3xl px-6">
-        <p className="text-[11px] font-mono tracking-[0.4em] text-white/40 uppercase mb-6">
+      <div ref={contentRef} className="relative z-30 max-w-4xl px-6">
+        <p className="text-[11px] font-mono tracking-[0.4em] text-white/40 uppercase mb-6 text-center">
           {focus}
         </p>
-        <h1 className="text-[5.5vw] font-black uppercase tracking-tighter leading-none">
+        <h1 
+          ref={headingRef}
+          className={`${getHeadingSize(name)} font-black uppercase tracking-tighter leading-none text-center mx-auto`}
+        >
           {name}
         </h1>
-        <p className="text-white/55 mt-8 leading-relaxed text-sm max-w-xl mx-auto">
+        <p className="text-white/55 mt-8 leading-relaxed text-sm max-w-2xl mx-auto text-center">
           {description}
         </p>
       </div>

@@ -28,6 +28,7 @@ export default function Hub() {
   const router = useRouter();
   const [labsDropdownOpen, setLabsDropdownOpen] = useState(false);
   const [eventsDropdownOpen, setEventsDropdownOpen] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
   const labsDropdownRef = useRef<HTMLDivElement>(null);
   const eventsDropdownRef = useRef<HTMLDivElement>(null);
   
@@ -480,6 +481,9 @@ useGSAP(() => {
 
                     <div 
                       onClick={() => {
+                        if (isNavigating) return;
+                        setIsNavigating(true);
+                        
                         const card = document.getElementById(`lab-card-${lab.id}`)
                         if (!card) return
 
@@ -533,27 +537,27 @@ useGSAP(() => {
                           left: 0,
                           width: "100vw",
                           height: "100vh",
-                          duration: 0.9,
-                          ease: "expo.inOut",
+                          duration: 1,
+                          ease: "power2.inOut",
                         })
-//me is
+
                         // Video inside saturates and blooms
                         if (cloneVideo) {
                           tl.to(cloneVideo, {
-                            opacity: 0.85,
-                            scale: 1.08,
+                            opacity: 0.9,
+                            scale: 1.1,
                             filter: "grayscale(0)",
-                            duration: 0.9,
-                            ease: "expo.inOut",
+                            duration: 1,
+                            ease: "power2.inOut",
                           }, "<")
                         }
 
                         // Black curtain sweeps over
                         tl.to(curtain, {
                           opacity: 1,
-                          duration: 0.4,
-                          ease: "power3.in",
-                        }, "-=0.15")
+                          duration: 0.5,
+                          ease: "power2.inOut",
+                        }, "-=0.2")
                       }}
                       className="text-[10px] font-bold border-t border-white/10 pt-8 text-white/20 tracking-[0.3em] flex justify-between items-center group-hover:text-white transition-colors cursor-pointer"
                     >
