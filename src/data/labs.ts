@@ -49,9 +49,9 @@ export const labs: Lab[] = [
     { name:"A.V. Ram Sathvik", field:"Computer Vision", year:"3rd Year"},
     { name:"M.Vinod", field:"Deep Reinforcement Learning", year:"2nd Year"},
     { name:"Mandala Srujan", field:"Computer Vision", year:"2nd Year"},
-    { name:"Nikhitha Uppalapati", field:"Computer Vision", year:"3rd Year"},
     { name:"P. Joshika", field:"Computer Vision", year:"3rd Year"},
     { name:"S. Pavan Kumar", field:"Computer Vision", year:"3rd Year"},
+    { name:"Naga Kashya", field:"Data Analytics", year:"3rd Year"},
     ]
   },
   { 
