@@ -328,10 +328,14 @@ export default function Hub() {
 
                     const rect = card.getBoundingClientRect();
                     const clone = card.cloneNode(true) as HTMLElement;
+
+                    // Position using fixed coords, but we'll animate via transform
+                    // (GPU-only: no layout recalc on every frame)
                     clone.style.cssText = `
                       position: fixed; top: ${rect.top}px; left: ${rect.left}px;
                       width: ${rect.width}px; height: ${rect.height}px; margin: 0;
                       z-index: 9999; pointer-events: none; border-radius: 0; overflow: hidden;
+                      will-change: transform; backface-visibility: hidden;
                     `;
                     document.body.appendChild(clone);
 
@@ -339,6 +343,7 @@ export default function Hub() {
                     curtain.style.cssText = `
                       position: fixed; inset: 0; background: black;
                       z-index: 9998; opacity: 0; pointer-events: none;
+                      will-change: opacity;
                     `;
                     document.body.appendChild(curtain);
 
@@ -350,6 +355,13 @@ export default function Hub() {
                       cloneVideo.play().catch(() => {});
                     }
 
+                    // Calculate scale factors to fill viewport via transform
+                    // Avoids animating top/left/width/height (layout-thrashing)
+                    const scaleX = window.innerWidth / rect.width;
+                    const scaleY = window.innerHeight / rect.height;
+                    const targetX = -rect.left + (window.innerWidth - rect.width) / 2;
+                    const targetY = -rect.top + (window.innerHeight - rect.height) / 2;
+
                     const tl = gsap.timeline({
                       onComplete: () => {
                         router.push(`/labs/${lab.id}`);
@@ -358,13 +370,15 @@ export default function Hub() {
                       },
                     });
 
+                    // GPU-only animation: translate + scale (compositor thread, no layout)
                     tl.to(clone, {
-                      top: 0,
-                      left: 0,
-                      width: "100vw",
-                      height: "100vh",
+                      x: targetX,
+                      y: targetY,
+                      scaleX,
+                      scaleY,
                       duration: 1,
                       ease: "power2.inOut",
+                      force3D: true,
                     });
                     if (cloneVideo) {
                       tl.to(
@@ -375,6 +389,7 @@ export default function Hub() {
                           filter: "grayscale(0)",
                           duration: 1,
                           ease: "power2.inOut",
+                          force3D: true,
                         },
                         "<",
                       );
